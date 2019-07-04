@@ -4,51 +4,54 @@ var winCount = 0;
 var lossCount = 0;
 var guessLeft = 9;
 var guessedLetters = [];
+var computerChoice;
 
+reset();
 
-// Computer randomly chooses a letter
-var randomLetter = Math.floor(Math.random () * letters.length); 
-var computerChoice = letters[randomLetter];
-console.log(computerChoice);
-
-
-// Guesses left
-var updateGuessLeft = function() {
-    document.querySelector(".guessesLeft").innerHTML = guessLeft;
-}
-
-var guessesSoFar = function() {
-    document.querySelector(".yourGuesses").innerHTML = guessedLetters;
-}
-
-//reset the game everytime player wins or loses
-var reset = function() {
-    guessLeft = 9;
-    guessedLetters = [];
-    updateRandowLetter;
-    updateGuessLeft;
-    guessesSoFar;
-}
 
 // function to capture player's keyboard input
-document.onkeyup = function (event) {
-    var userChoice = event.key;
+document.onkeyup = function (event) { //onkeyup event when user releases the key
+    var userChoice = event.key; //return value is the pressed button
     console.log(userChoice);
     
     guessLeft--;
-    updateGuessLeft();
+    updateGuessLeft(); //display number of guesses left (function below)
 
     guessedLetters.push(userChoice); //add to previous guessed letters
-    guessesSoFar();
+    guessesSoFar(); //display all guessed letters (function below)
 
     if (userChoice == computerChoice) {
         winCount++;
         document.querySelector(".winNumbers").innerHTML = winCount;
-        reset ();
+        reset (); 
     } else if (guessLeft == 0){
         lossCount++;
         document.querySelector(".lossNumbers").innerHTML = lossCount;
         reset ();
     }
 }
+
+// function to update and display number of guesses left
+function updateGuessLeft() {
+    document.querySelector(".guessesLeft").innerHTML = guessLeft;
+}
+
+// function to display guessed letters 
+function guessesSoFar() {
+    document.querySelector(".yourGuesses").innerHTML = guessedLetters;
+}
+
+
+//reset the game everytime player wins or loses so no need to reload the page
+//win ar lose counts do not reset
+//computer pick different letter at reset
+function reset(){
+    guessLeft = 9;
+    guessedLetters = [];
+    computerChoice = letters[Math.floor(Math.random () * letters.length)];
+    console.log("computer pick: " + computerChoice);
+    updateGuessLeft;
+    guessesSoFar;
+}
+
 
